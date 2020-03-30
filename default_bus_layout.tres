@@ -1,0 +1,53 @@
+[gd_resource type="AudioBusLayout" load_steps=5 format=2]
+
+[sub_resource type="AudioEffectEQ" id=1]
+resource_name = "EQ"
+band_db/32_hz = -2.4
+band_db/100_hz = -4.2
+band_db/320_hz = -7.2
+band_db/1000_hz = -9.6
+band_db/3200_hz = -12.9
+band_db/10000_hz = -16.7
+
+[sub_resource type="AudioEffectReverb" id=2]
+resource_name = "Reverb"
+room_size = 1.0
+damping = 0.2
+spread = 0.83
+hipass = 0.46
+dry = 0.63
+wet = 0.4
+
+[sub_resource type="AudioEffectEQ" id=3]
+resource_name = "EQ"
+band_db/32_hz = -4.2
+band_db/100_hz = -7.2
+band_db/320_hz = -14.4
+band_db/1000_hz = -20.3
+band_db/3200_hz = -25.1
+band_db/10000_hz = -30.8
+
+[sub_resource type="AudioEffectReverb" id=4]
+resource_name = "Reverb"
+room_size = 1.0
+damping = 0.22
+spread = 0.84
+hipass = 0.46
+dry = 0.61
+wet = 0.42
+
+[resource]
+bus/0/effect/0/effect = SubResource( 1 )
+bus/0/effect/0/enabled = false
+bus/0/effect/1/effect = SubResource( 2 )
+bus/0/effect/1/enabled = false
+bus/1/name = "PauseEffects"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = 0.0
+bus/1/send = "Master"
+bus/1/effect/0/effect = SubResource( 3 )
+bus/1/effect/0/enabled = true
+bus/1/effect/1/effect = SubResource( 4 )
+bus/1/effect/1/enabled = true

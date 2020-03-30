@@ -1,0 +1,190 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://pauseMenu.gd" type="Script" id=1]
+[ext_resource path="res://art/vignette.png" type="Texture" id=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform sampler2D vignette;
+
+void fragment() {
+	vec3 vignette_color = texture(vignette, UV).rgb;
+	// Screen texture stores gaussian blurred copies on mipmaps.
+	COLOR.rgb = textureLod(SCREEN_TEXTURE, SCREEN_UV, (1.0 - vignette_color.r) * 4.0).rgb;
+	COLOR.rgb *= texture(vignette, UV).rgb;
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/vignette = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.160784, 0.266667, 0.321569, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.196078, 0.333333, 0.4, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.929412, 0.929412, 0.929412, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.196078, 0.333333, 0.4, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="PauseMenu" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource( 2 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+margin_bottom = 14.0
+text = "PAUSE"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -98.0
+margin_top = -60.0
+margin_right = 102.0
+margin_bottom = 151.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ContinueBtn" type="Button" parent="VBoxContainer"]
+margin_right = 200.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 0, 50 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+text = "CONTINUE"
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer"]
+modulate = Color( 1, 1, 1, 0 )
+margin_top = 54.0
+margin_right = 200.0
+margin_bottom = 84.0
+rect_min_size = Vector2( 0, 30 )
+
+[node name="ExitBtn" type="Button" parent="VBoxContainer"]
+margin_top = 88.0
+margin_right = 200.0
+margin_bottom = 138.0
+rect_min_size = Vector2( 0, 50 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+text = "EXIT"
+
+[node name="Popup" type="Control" parent="."]
+visible = false
+margin_right = 31.0
+margin_bottom = 186.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="Popup"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 492.0
+margin_top = 177.0
+margin_right = 764.0
+margin_bottom = 380.0
+color = Color( 0.0431373, 0.0431373, 0.0431373, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Popup"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 527.0
+margin_top = 204.0
+margin_right = 732.0
+margin_bottom = 375.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Popup/VBoxContainer2"]
+margin_right = 205.0
+margin_bottom = 14.0
+text = "EXIT?"
+align = 1
+
+[node name="VSeparator" type="VSeparator" parent="Popup/VBoxContainer2"]
+modulate = Color( 1, 1, 1, 0 )
+margin_top = 18.0
+margin_right = 205.0
+margin_bottom = 33.0
+rect_min_size = Vector2( 0, 15 )
+
+[node name="YesBtn" type="Button" parent="Popup/VBoxContainer2"]
+margin_top = 37.0
+margin_right = 205.0
+margin_bottom = 87.0
+rect_min_size = Vector2( 0, 50 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+text = "YES"
+
+[node name="VSeparator2" type="VSeparator" parent="Popup/VBoxContainer2"]
+modulate = Color( 1, 1, 1, 0 )
+margin_top = 91.0
+margin_right = 205.0
+margin_bottom = 96.0
+rect_min_size = Vector2( 0, 5 )
+
+[node name="NoBtn" type="Button" parent="Popup/VBoxContainer2"]
+margin_top = 100.0
+margin_right = 205.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 0, 50 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+text = "NO"
+[connection signal="pressed" from="VBoxContainer/ContinueBtn" to="." method="_on_ContinueBtn_pressed"]
+[connection signal="pressed" from="VBoxContainer/ExitBtn" to="." method="_on_ExitBtn_pressed"]
+[connection signal="pressed" from="Popup/VBoxContainer2/YesBtn" to="." method="_on_YesBtn_pressed"]
+[connection signal="pressed" from="Popup/VBoxContainer2/NoBtn" to="." method="_on_NoBtn_pressed"]
